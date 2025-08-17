@@ -1,81 +1,56 @@
 #ifndef RAY_H
 #define RAY_H
 
+#include "blackhole.hpp"
+
 #include <GL/gl.h>
-#include <cmath>
-#include <cstddef>
-#include <glm/detail/qualifier.hpp>
-#include <glm/ext/vector_float2.hpp>
 #include <glm/glm.hpp>
 #include <vector>
 
+class Blackhole;
+
 class Ray {
 public:
-  Ray(void) = default;
-  Ray(glm::vec2 dir, glm::vec2 pos) : x(pos.x), y(pos.y) {
-    _r = std::hypot(x, y);
-    _phi = std::atan2(y, x);
-
-    if (_r > 0) {
-      dr = (x * dir.x + y * dir.y) / _r;
-      dphi = (x * dir.y - y * dir.x) / (_r * _r);
-    } else {
-      dr = 0;
-      dphi = 0;
-    }
-    _trail.push_back({x, y});
+  Ray() = default;
+  Ray(glm::vec2 dir, glm::vec2 pos) : _position(pos), _velocity(dir) {
+    _trail.push_back(_position);
   }
 
-  ~Ray(void) = default;
-
-  void step(double new_r, double new_phi, double new_dr, double new_dphi) {
-    _r = new_r;
-    _phi = new_phi;
-    dr = new_dr;
-    dphi = new_dphi;
-
-    x = _r * std::cos(_phi);
-    y = _r * std::sin(_phi);
-    _trail.push_back({x, y});
+  void step(glm::vec2 new_pos, glm::vec2 new_vel) {
+    _position = new_pos;
+    _velocity = new_vel;
+    _trail.push_back(_position);
   }
 
-  void draw(int32_t width, int32_t height) {
-    if (_trail.size() < 2) {
+  void draw(int32_t width, int32_t height) const {
+    if (_trail.size() < 2)
       return;
-    }
-    const float aspect_ratio = (float)width / (float)height;
+    const float aspect_ratio = static_cast<float>(width) / height;
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glLineWidth(1.5f);
 
-    glColor3f(1.0f, 1.0f, 1.0f);
-    glPointSize(2.0f);
-
     glBegin(GL_LINE_STRIP);
-    for (std::size_t i = 0; i < _trail.size(); ++i) {
+    for (size_t i = 0; i < _trail.size(); ++i) {
       float alpha = static_cast<float>(i) / (_trail.size() - 1);
       glColor4f(1.0, 1.0, 1.0, alpha);
       glVertex2f(_trail[i].x / aspect_ratio, _trail[i].y);
     }
-
     glEnd();
     glDisable(GL_BLEND);
   }
 
-  double get_r() const { return _r; }
-  double get_dr() const { return dr; }
-  double get_phi() const { return _phi; }
-  double get_dphi() const { return dphi; }
-
-  bool is_captured(float visual_rs) const { return _r < visual_rs; }
+  glm::vec2 get_position() const { return _position; }
+  glm::vec2 get_velocity() const { return _velocity; }
+  bool is_captured(const Blackhole &bh) const {
+    return glm::distance(_position, bh.get_position()) < bh.get_radius();
+  }
 
 private:
-  double _r, _phi;
-  double dr, dphi;
-
-  double x, y;
+  glm::vec2 _position;
+  glm::vec2 _velocity;
   std::vector<glm::vec2> _trail;
 };
 
-#endif /* RAY_H */
+#endif // RAY_H
