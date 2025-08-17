@@ -1,14 +1,14 @@
 NAME = blackhole_sim
-CC = gcc
+CC = g++
 
 CFLAGS = -Wall -Wextra -Werror -g -I/usr/local/include
 LDFLAGS = -L/usr/local/lib -lglfw -lGL -lm -ldl -lpthread -lX11
 
 SRC_DIR = src
-SRCS = $(wildcard $(SRC_DIR)/*.c)
+SRCS = $(wildcard $(SRC_DIR)/*.cpp)
 OBJ_DIR = build
 
-OBJS = $(addprefix $(OBJ_DIR)/, $(notdir $(SRCS:.c=.o)))
+OBJS = $(addprefix $(OBJ_DIR)/, $(notdir $(SRCS:.cpp=.o)))
 
 all: $(NAME)
 
@@ -17,7 +17,7 @@ $(NAME): $(OBJS)
 	$(CC) $(OBJS) -o $(NAME) $(LDFLAGS)
 	@echo "Done! Run with ./$(NAME)"
 
-$(OBJ_DIR)/%.o: src/%.c
+$(OBJ_DIR)/%.o: src/%.cpp
 	@mkdir -p $(OBJ_DIR)
 	@echo "Compiling $<..."
 	$(CC) $(CFLAGS) -c $< -o $@

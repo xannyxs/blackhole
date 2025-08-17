@@ -5,9 +5,11 @@ mkShell {
     gcc
     gnumake
     pkg-config
-    glfw
     clang-tools
     bear
+
+    glfw
+    glm
 
     xorg.libX11
     xorg.libXrandr
