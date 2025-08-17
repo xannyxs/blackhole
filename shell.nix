@@ -7,6 +7,7 @@ mkShell {
     pkg-config
     glfw
     clang-tools
+    bear
 
     xorg.libX11
     xorg.libXrandr

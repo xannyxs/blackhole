@@ -5,11 +5,7 @@
 
 #include "GL/gl.h"
 #include "blackhole.h"
-
-const double G = 6.67430e-11; // G in m^3 kg^-1 s^-2
-const double C = 299792458.0;
-
-void free_blackhole(blackhole_t *bh) { free(bh); }
+#include "consts.h"
 
 void draw_blackhole(const blackhole_t *bh, int32_t width, int32_t height) {
   float aspect_ratio = (float)width / (float)height;

@@ -1,0 +1,36 @@
+[
+  {
+    "arguments": [
+      "/nix/store/kaj8d1zcn149m40s9h0xi0khakibiphz-gcc-wrapper-14.3.0/bin/gcc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-g",
+      "-I/usr/local/include",
+      "-c",
+      "-o",
+      "build/blackhole.o",
+      "src/blackhole.c"
+    ],
+    "directory": "/home/xannyx/Documents/ideaProjects/blackhole",
+    "file": "/home/xannyx/Documents/ideaProjects/blackhole/src/blackhole.c",
+    "output": "/home/xannyx/Documents/ideaProjects/blackhole/build/blackhole.o"
+  },
+  {
+    "arguments": [
+      "/nix/store/kaj8d1zcn149m40s9h0xi0khakibiphz-gcc-wrapper-14.3.0/bin/gcc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-g",
+      "-I/usr/local/include",
+      "-c",
+      "-o",
+      "build/main.o",
+      "src/main.c"
+    ],
+    "directory": "/home/xannyx/Documents/ideaProjects/blackhole",
+    "file": "/home/xannyx/Documents/ideaProjects/blackhole/src/main.c",
+    "output": "/home/xannyx/Documents/ideaProjects/blackhole/build/main.o"
+  }
+]
